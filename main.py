@@ -8,7 +8,7 @@ from flask_login import current_user
 
 
 from app import create_app
-from app.forms import CreateToDoForm, LoginForm
+from app.forms import CreateToDoForm, DeleteToDoForm, LoginForm
 from app.models import db, get_user_todo_list, get_user
 
 
@@ -33,6 +33,7 @@ def index() -> str:
     if not current_user.is_anonymous:
         username = current_user.id
         create_todo_form = CreateToDoForm()
+        delete_todo_form = DeleteToDoForm()
         # Get the user todo list
         user = current_user.id
         user_db = get_user(user)
@@ -40,6 +41,7 @@ def index() -> str:
         context = {
             "username": username,
             "create_todo_form": create_todo_form,
+            "delete_todo_form": delete_todo_form,
             "todo_list": todo_list
         }
 

@@ -19,6 +19,7 @@ class ToDo(db.Model):
     __tablename__ = 'todos'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     description = db.Column(db.String(20), nullable=False)
+    done = db.Column(db.Boolean, default=False, nullable=False)
     id_user = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
 
@@ -30,6 +31,11 @@ def get_user(username):
 # To get a user to do list
 def get_user_todo_list(id_user: str) -> List[str]:
     return ToDo.query.filter_by(id_user=id_user).all()
+
+
+# To delete a To DO
+def get_todo(id_user: str, id: str):
+    return ToDo.query.filter_by(id_user=id_user, id=id).first()
 
 
 # To implement user login authentication

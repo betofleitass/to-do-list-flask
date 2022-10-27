@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% from 'bootstrap5/form.html' import render_form %}
-
+{% import 'macros.html' as macros %}
 
 {% block title %}
     Welcome
@@ -25,9 +25,7 @@
                 <h2>My To Do List</h2>
                 <ul>
                     {% for todo in todo_list %}
-                        <li>
-                            {{todo.description}}
-                        </li>
+                        {{macros.render_todo(todo, delete_todo_form)}}
                     {% endfor %}
                 </ul>
             </div>

@@ -2,8 +2,8 @@ from webbrowser import get
 from flask import (Blueprint, flash, redirect, render_template,
                    url_for)
 from flask_login import login_user, current_user
-from app.forms import CreateToDoForm
-from app.models import db, User, UserModel, get_user, ToDo
+from app.forms import CreateToDoForm, DeleteToDoForm
+from app.models import db, User, UserModel, get_todo, get_user, ToDo
 
 todo = Blueprint('todo', __name__, url_prefix='/todo')
 
@@ -28,3 +28,20 @@ def create_todo():
         flash('To Do created successfully!', 'success')
 
         return redirect(url_for('index'))
+
+
+@todo.route('/delete/<todo_id>', methods=['POST'])
+def delete_todo(todo_id):
+
+    user = current_user.id
+    user_db = get_user(user)
+    user_id = user_db.id
+
+    delete_todo = get_todo(id_user=user_id, id=todo_id)
+
+    db.session.delete(delete_todo)
+    db.session.commit()
+
+    flash('To Do deleted successfully!', 'success')
+
+    return redirect(url_for('index'))

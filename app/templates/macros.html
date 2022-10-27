@@ -1,0 +1,18 @@
+{% from 'bootstrap5/form.html' import render_form %}
+
+
+{% macro render_todo(todo, delete_form) %}
+    <li>
+        {{todo.description}}
+
+        <!--Actions-->
+        {{ 
+            render_form(
+                delete_form, 
+                button_style="danger",
+                action=url_for('todo.delete_todo',todo_id=todo.id)
+                ) 
+        }}
+
+    </li>
+{% endmacro %}
