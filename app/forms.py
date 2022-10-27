@@ -13,3 +13,8 @@ class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
+
+
+class CreateToDoForm(FlaskForm):
+    description = StringField('Description', validators=[DataRequired()])
+    submit = SubmitField('Create To Do')

@@ -5,7 +5,8 @@ from flask_bootstrap import Bootstrap5
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
-from .auth import views
+from .auth import views as auth_views
+from .todo import views as todo_views
 from .models import UserModel
 
 
@@ -39,6 +40,7 @@ def create_app() -> Flask:
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 
     # Blueprints
-    app.register_blueprint(views.auth)
+    app.register_blueprint(auth_views.auth)
+    app.register_blueprint(todo_views.todo)
 
     return app

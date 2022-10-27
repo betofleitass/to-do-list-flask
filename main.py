@@ -4,7 +4,7 @@ from flask import (flash, make_response,
 from flask_login import current_user
 
 from app import create_app
-from app.forms import LoginForm
+from app.forms import CreateToDoForm, LoginForm
 from app.models import db
 
 
@@ -21,14 +21,17 @@ def index() -> str:
     login_form = LoginForm()
 
     context = {
-        'login_form': login_form
+        'login_form': login_form,
+
     }
 
-    # If the user is not logged in
+    # If the user is logged in
     if not current_user.is_anonymous:
         username = current_user.id
+        create_todo_form = CreateToDoForm()
         context = {
             "username": username,
+            "create_todo_form": create_todo_form
         }
 
         return render_template("index.html", **context)

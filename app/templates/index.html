@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% from 'bootstrap5/form.html' import render_form %}
 
+
 {% block title %}
     Welcome
 {% endblock title %}
@@ -12,6 +13,18 @@
         {% if current_user.is_authenticated %}
             <h1>Welcome {{username}} </h1>
             <h6><a href="{{url_for('auth.logout')}}">Logout</a></h6>
+
+            <!--Create To Do-->
+            <div>
+                <h2>Create To Do</h2>
+                {{ render_form(create_todo_form, action="/todo/create") }}
+            </div>
+
+            <!--My To Do list-->
+            <div>
+                <h2>My To Do List</h2>
+            </div>
+
         {% else %}
             <h1><a href="{{url_for('auth.login')}}">Login</a></h1>
             <h1><a href="{{url_for('auth.signup')}}">Don't have an account?: Singup</a></h1>

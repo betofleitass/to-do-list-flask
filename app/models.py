@@ -13,6 +13,13 @@ class User(db.Model):
     password = db.Column(db.String(45), nullable=False)
 
 
+class ToDo(db.Model):
+    __tablename__ = 'todos'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    description = db.Column(db.String(20), nullable=False)
+    id_user = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+
 # To get a user id
 def get_user(username):
     return User.query.filter_by(username=username).first()
