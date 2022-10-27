@@ -18,6 +18,13 @@ with app.app_context():
 @app.route("/", methods=['GET'])
 def index() -> str:
 
+    login_form = LoginForm()
+
+    context = {
+        'login_form': login_form
+    }
+
+    # If the user is not logged in
     if not current_user.is_anonymous:
         username = current_user.id
         context = {
@@ -26,7 +33,7 @@ def index() -> str:
 
         return render_template("index.html", **context)
 
-    return render_template("index.html")
+    return render_template("index.html", **context)
 
 
 if __name__ == "__main__":

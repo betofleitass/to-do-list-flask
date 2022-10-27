@@ -35,6 +35,12 @@ def signup():
             db.session.add(new_user)
             db.session.commit()
 
+            # Login the new user
+            user_db = get_user(username)
+            user_data = UserData(username, password)
+            user = UserModel(user_data)
+            login_user(user)
+
             flash('You have successfully signed up!', 'success')
 
             return redirect(url_for('index'))
@@ -82,4 +88,4 @@ def logout():
     logout_user()
     flash('Succesfully logged out!', 'success')
 
-    return redirect(url_for('auth.login'))
+    return redirect(url_for('index'))
