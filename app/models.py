@@ -1,3 +1,5 @@
+from typing import List
+
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 
@@ -23,6 +25,11 @@ class ToDo(db.Model):
 # To get a user id
 def get_user(username):
     return User.query.filter_by(username=username).first()
+
+
+# To get a user to do list
+def get_user_todo_list(id_user: str) -> List[str]:
+    return ToDo.query.filter_by(id_user=id_user).all()
 
 
 # To implement user login authentication

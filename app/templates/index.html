@@ -23,6 +23,13 @@
             <!--My To Do list-->
             <div>
                 <h2>My To Do List</h2>
+                <ul>
+                    {% for todo in todo_list %}
+                        <li>
+                            {{todo.description}}
+                        </li>
+                    {% endfor %}
+                </ul>
             </div>
 
         {% else %}

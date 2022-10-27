@@ -1,11 +1,15 @@
+from typing import List
+
+
 from flask import (flash, make_response,
                    redirect, render_template, request,
                    session, url_for, Response)
 from flask_login import current_user
 
+
 from app import create_app
 from app.forms import CreateToDoForm, LoginForm
-from app.models import db
+from app.models import db, get_user_todo_list, get_user
 
 
 app = create_app()
@@ -29,9 +33,14 @@ def index() -> str:
     if not current_user.is_anonymous:
         username = current_user.id
         create_todo_form = CreateToDoForm()
+        # Get the user todo list
+        user = current_user.id
+        user_db = get_user(user)
+        todo_list = get_user_todo_list(id_user=user_db.id)
         context = {
             "username": username,
-            "create_todo_form": create_todo_form
+            "create_todo_form": create_todo_form,
+            "todo_list": todo_list
         }
 
         return render_template("index.html", **context)
