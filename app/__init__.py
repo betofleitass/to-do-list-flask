@@ -2,9 +2,21 @@ import os
 
 from flask import Flask, render_template, url_for
 from flask_bootstrap import Bootstrap5
+from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
 from .auth import views
+from .models import UserModel
+
+
+# To handle user authentication
+login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
+
+
+@login_manager.user_loader
+def load_user(username):
+    return UserModel.query(username)
 
 
 # Application factory function
@@ -19,13 +31,14 @@ def create_app() -> Flask:
     app: Flask = Flask(__name__,
                        template_folder='./templates',
                        static_folder='./static')
+
     bootstrap = Bootstrap5(app)
+    login_manager.init_app(app)
 
     app.config["SECRET_KEY"] = "SUPER_SECRET_KEY"
-
-    # Configure the SQLite database, relative to the app instance folder
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 
+    # Blueprints
     app.register_blueprint(views.auth)
 
     return app

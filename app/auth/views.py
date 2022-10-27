@@ -1,8 +1,45 @@
 from flask import (Blueprint, flash, redirect, render_template,
                    session, url_for)
-from app.forms import LoginForm
+from flask_login import login_user
+from app.forms import LoginForm, SignUpForm
+from app.models import UserData, db, User, UserModel, get_user
 
 auth = Blueprint('auth', __name__, url_prefix='/auth')
+
+
+@auth.route('/signup', methods=['GET', 'POST'])
+def signup():
+
+    signup_form = SignUpForm()
+
+    context = {
+        'signup_form': signup_form
+    }
+
+    if signup_form.validate_on_submit():
+        username = signup_form.username.data
+        password = signup_form.password.data
+
+        new_user = User(username=username, password=password)
+
+        # Check if the users exists in the DB
+        user_db = get_user(username)
+
+        if user_db:
+            # If the user already exists
+            flash('User already exists', 'danger')
+
+            return redirect(url_for('auth.signup'))
+        else:
+            # If does not exists, create it
+            db.session.add(new_user)
+            db.session.commit()
+
+            flash('You have successfully signed up!', 'success')
+
+            return redirect(url_for('index'))
+
+    return render_template('signup.html', **context)
 
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -16,10 +53,24 @@ def login():
 
     if login_form.validate_on_submit():
         username = login_form.username.data
-        session['username'] = username
+        password = login_form.password.data
 
-        flash('Succesfully loged in!', 'success')
+        # Check if the users exists in the DB
+        user_db = get_user(username)
 
-        return redirect(url_for('index'))
+        if user_db:
+            user_data = UserData(username, password)
+            user = UserModel(user_data)
+
+            login_user(user)
+
+            flash('Succesfully loged in!', 'success')
+
+            return redirect(url_for('index'))
+        else:
+            # If it does not exists
+            flash('User does not exists', 'danger')
+
+            return redirect(url_for('auth.login'))
 
     return render_template('login.html', **context)

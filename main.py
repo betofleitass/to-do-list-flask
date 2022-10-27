@@ -2,15 +2,16 @@ from flask import (flash, make_response,
                    redirect, render_template, request,
                    session, url_for, Response)
 
-from flask_sqlalchemy import SQLAlchemy
 from app import create_app
 from app.forms import LoginForm
+from app.models import db
 
 
 app = create_app()
-# Database configuration
-db = SQLAlchemy()
 db.init_app(app)
+
+with app.app_context():
+    db.create_all()
 
 
 @app.route("/", methods=['GET'])
