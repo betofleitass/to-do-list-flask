@@ -61,20 +61,28 @@ def login():
         username = login_form.username.data
         password = login_form.password.data
 
-        # Check if the users exists in the DB
+        # Check if the user exists in the DB
         user_db = get_user(username)
 
         if user_db:
+            # If the user exists
             user_data = UserData(username, password)
             user = UserModel(user_data)
 
-            login_user(user)
+            # Validate password
+            if password == user_db.password:
+                login_user(user)
 
-            flash('Succesfully loged in!', 'success')
+                flash('Succesfully loged in!', 'success')
 
-            return redirect(url_for('index'))
+                return redirect(url_for('index'))
+            else:
+                # If the passwords does not matchs
+                flash('Incorrect password', 'danger')
+
+                return redirect(url_for('auth.login'))
         else:
-            # If it does not exists
+            # If the user does not exists
             flash('User does not exists', 'danger')
 
             return redirect(url_for('auth.login'))
