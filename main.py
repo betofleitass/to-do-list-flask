@@ -1,6 +1,7 @@
 from flask import (flash, make_response,
                    redirect, render_template, request,
                    session, url_for, Response)
+from flask_login import current_user
 
 from app import create_app
 from app.forms import LoginForm
@@ -16,12 +17,16 @@ with app.app_context():
 
 @app.route("/", methods=['GET'])
 def index() -> str:
-    login_form = LoginForm()
-    context = {
-        "login_form": login_form,
-    }
 
-    return render_template("index.html", **context)
+    if not current_user.is_anonymous:
+        username = current_user.id
+        context = {
+            "username": username,
+        }
+
+        return render_template("index.html", **context)
+
+    return render_template("index.html")
 
 
 if __name__ == "__main__":
