@@ -1,43 +1,31 @@
 import os
 
-from flask import Flask
+from flask import Flask, render_template, url_for
+from flask_bootstrap import Bootstrap5
+from flask_sqlalchemy import SQLAlchemy
+
+from .auth import views
 
 
 # Application factory function
-def create_app(test_config=None) -> Flask:
+def create_app() -> Flask:
     """
-    Creates the Flask instance and configure it
-
-    Keyword arguments:
-    test_config: str (optional) -> description
+    Creates the Flask instance
 
     Return:
     app: Flask -> Flask instance
     """
 
-    app = Flask(__name__, instance_relative_config=True)
-    # Set some default configuration
-    app.config.from_mapping(
-        SECRET_KEY='SUPER_SECRET_KEY',
-        DATABASE=os.path.join(app.instance_path, 'database.sqlite'),
-    )
+    app: Flask = Flask(__name__,
+                       template_folder='./templates',
+                       static_folder='./static')
+    bootstrap = Bootstrap5(app)
 
-    if test_config is None:
-        # Loads the instance config
-        app.config.from_pyfile('config.py', silent=True)
-    else:
-        # Loads the test config if passed in
-        app.config.from_mapping(test_config)
+    app.config["SECRET_KEY"] = "SUPER_SECRET_KEY"
 
-    # Ensure the instance folder exists
-    try:
-        os.makedirs(app.instance_path)
-    except OSError:
-        pass
+    # Configure the SQLite database, relative to the app instance folder
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 
-    # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
+    app.register_blueprint(views.auth)
 
     return app
