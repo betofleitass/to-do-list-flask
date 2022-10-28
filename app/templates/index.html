@@ -36,13 +36,13 @@
         <div class="container">
             <!--Create To Do-->
             <div class="row my-5">
-                <h2>Create To Do</h2>
+                <h2>Create a new task</h2>
                 {{ render_form(create_todo_form, action="/todo/create") }}
             </div>
 
             <!--My To Do list-->
             <div class="row my-5">
-                <h2>To Do List</h2>
+                <h2>To Do list</h2>
                 <div>
                     <ul class="list-group">
                         {% for todo in todo_list %}
