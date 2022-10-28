@@ -22,10 +22,10 @@
 
             <!--My To Do list-->
             <div>
-                <h2>My To Do List</h2>
+                <h2>To Do List</h2>
                 <ul>
                     {% for todo in todo_list %}
-                        {{macros.render_todo(todo, delete_todo_form)}}
+                        {{macros.render_todo(todo, done_todo_form, delete_todo_form)}}
                     {% endfor %}
                 </ul>
             </div>

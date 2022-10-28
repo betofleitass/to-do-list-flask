@@ -1,11 +1,24 @@
 {% from 'bootstrap5/form.html' import render_form %}
 
 
-{% macro render_todo(todo, delete_form) %}
+{% macro render_todo(todo, done_form, delete_form) %}
     <li>
         {{todo.description}}
+        {% if todo.done == False %}
+            <h6>Pending</h6>
+        {% else %}
+            <h6>Done</h6>
+        {% endif %}
 
         <!--Actions-->
+        {{ 
+            render_form(
+                done_form, 
+                button_style="success",
+                action=url_for('todo.done_todo',todo_id=todo.id)
+                ) 
+        }}
+        
         {{ 
             render_form(
                 delete_form, 

@@ -30,6 +30,24 @@ def create_todo():
         return redirect(url_for('index'))
 
 
+@todo.route('/done/<todo_id>', methods=['POST'])
+def done_todo(todo_id):
+
+    user = current_user.id
+    user_db = get_user(user)
+    user_id = user_db.id
+
+    done_todo = get_todo(id_user=user_id, id=todo_id)
+
+    done_todo.done = True
+
+    db.session.commit()
+
+    flash('To Do done successfully!', 'success')
+
+    return redirect(url_for('index'))
+
+
 @todo.route('/delete/<todo_id>', methods=['POST'])
 def delete_todo(todo_id):
 

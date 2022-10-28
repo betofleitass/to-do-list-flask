@@ -22,3 +22,7 @@ class CreateToDoForm(FlaskForm):
 
 class DeleteToDoForm(FlaskForm):
     submit = SubmitField('Delete')
+
+
+class DoneToDoForm(FlaskForm):
+    submit = SubmitField('Done')
