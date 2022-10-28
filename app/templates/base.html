@@ -12,7 +12,6 @@
             <!--Boostrap Icons-->
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
             {% block styles %}
-
             {% endblock styles%}
 
             <title>
@@ -25,7 +24,7 @@
         
         <!--Flash messages-->
         {% for category, message in get_flashed_messages(with_categories=True) %}
-        <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+        <div id="message-div" class="alert alert-{{category}} alert-dismissible fade show" role="alert" >
             {{message}}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
@@ -38,6 +37,7 @@
             <!-- Optional JavaScript -->
             {{ bootstrap.load_js() }}
         {% endblock %}
-        
+        <!--JS to dissapear message automatically-->
+        <script type='text/javascript' src="{{ url_for('static', filename='js/dissapear-message.js') }}"></script>      
     </body>
 </html>
