@@ -9,16 +9,20 @@
 {% block content %}
 
     {% if current_user.is_authenticated %}
-        <div class="container mt-4 mb-6">
+    <div class="pt-1 bg-dark">    
+        <div class="container mb-6">
             <div class="row">
                 <div class="col-5">
-                    <h1 class="text-start fs-1">To Do List</h1>
+                    <h1 class="text-light text-start fs-2 pt-1">
+                        <i class="text-light bi bi-clipboard-check"></i>
+                        To Do List
+                    </h1>
                 </div>
                 <div class="col-5">
-                    <h6 class="text-end fs-4">Welcome, {{username}} !</h6>
+                    <h6 class="text-light text-end fs-4 pt-2">Welcome, {{username}} !</h6>
                 </div>
                 <div class="col-2">
-                    <h6 class="text-end fs-4">
+                    <h6 class="text-light text-end fs-4 pt-2"">
                         <a class="text-reset text-decoration-none" 
                             href="{{url_for('auth.logout')}}">
                             Logout <i class="bi bi-box-arrow-right ms-2"></i>
@@ -27,7 +31,7 @@
                 </div>
             </div>
         </div>
-
+    </div>
 
         <div class="container">
             <!--Create To Do-->
