@@ -1,9 +1,6 @@
-import os
-
-from flask import Flask, render_template, url_for
+from flask import Flask
 from flask_bootstrap import Bootstrap5
 from flask_login import LoginManager
-from flask_sqlalchemy import SQLAlchemy
 
 from .auth import views as auth_views
 from .todo import views as todo_views
